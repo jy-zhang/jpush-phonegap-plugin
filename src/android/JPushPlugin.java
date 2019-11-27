@@ -166,6 +166,8 @@ public class JPushPlugin extends CordovaPlugin {
         JSONObject data = getMessageObject(message, extras);
         String format = "window.plugins.jPushPlugin.receiveMessageInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
+        instance.webView.loadUrl("javascript:" + js);
+
         cordovaActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -181,6 +183,7 @@ public class JPushPlugin extends CordovaPlugin {
         JSONObject data = getNotificationObject(title, alert, extras);
         String format = "window.plugins.jPushPlugin.openNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
+
         cordovaActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -198,12 +201,13 @@ public class JPushPlugin extends CordovaPlugin {
         JSONObject data = getNotificationObject(title, alert, extras);
         String format = "window.plugins.jPushPlugin.receiveNotificationInAndroidCallback(%s);";
         final String js = String.format(format, data.toString());
-        cordovaActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                instance.webView.loadUrl("javascript:" + js);
-            }
-        });
+        instance.webView.loadUrl("javascript:" + js);
+//         cordovaActivity.runOnUiThread(new Runnable() {
+//             @Override
+//             public void run() {
+//                 instance.webView.loadUrl("javascript:" + js);
+//             }
+//         });
         JPushPlugin.notificationTitle = null;
         JPushPlugin.notificationAlert = null;
     }
